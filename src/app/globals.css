@@ -37,6 +37,7 @@ body {
   background: var(--background);
   color: var(--secondary);
   font-family: var(--font-sans);
+  scroll-behavior: smooth;
 }
 
 @layer components {
@@ -49,10 +50,10 @@ body {
   }
 
   .glow-blue {
-    @apply top-[40%] left-[75%] bg-[#6CDCFF]/20 md:h-[374px] md:w-[488px];
+    @apply left-[75%] top-[40%] bg-[#6CDCFF]/20 md:h-[374px] md:w-[488px];
   }
 
   .glow-purple {
-    @apply top-[35%] left-[45%] bg-[#DB73FF]/30 md:h-[365px] md:w-[477px];
+    @apply left-[45%] top-[35%] bg-[#DB73FF]/30 md:h-[365px] md:w-[477px];
   }
 }
