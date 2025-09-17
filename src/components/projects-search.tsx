@@ -25,6 +25,7 @@ export const ProjectsSearch = () => {
 
   const [searchQuery, setSearchQuery] = useState(query);
   const [category, setCategory] = useState<string>(selectedCategory);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const updateURL = useCallback(
     (newQuery?: string, newCategory?: string) => {
@@ -47,7 +48,10 @@ export const ProjectsSearch = () => {
         }
 
         const queryString = searchParams.toString();
-        const newPath = queryString ? `${pathname}?${queryString}` : pathname;
+        const currentHash = window.location.hash;
+        const newPath = queryString
+          ? `${pathname}?${queryString}${currentHash}`
+          : `${pathname}${currentHash}`;
         router.push(newPath, { scroll: false });
       } catch (error) {
         console.error('Error updating URL:', error);
@@ -59,6 +63,7 @@ export const ProjectsSearch = () => {
   useEffect(() => {
     setSearchQuery(query);
     setCategory(selectedCategory);
+    setIsInitialized(true);
   }, [query, selectedCategory]);
 
   const handleUpdateCategory = useCallback(
@@ -71,12 +76,14 @@ export const ProjectsSearch = () => {
   );
 
   useEffect(() => {
+    if (!isInitialized) return;
+
     const timeoutId = setTimeout(() => {
       updateURL(searchQuery);
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, updateURL]);
+  }, [searchQuery, updateURL, isInitialized]);
 
   return (
     <form

@@ -8,7 +8,7 @@ export const siteConfig = {
   },
   routes: [
     { label: 'Início', link: '/' },
-    { label: 'Blog', link: '/blog' },
+    { label: 'Blog', link: '#blog' },
   ],
   validCategories: ['IA', 'Front-end', 'Back-end'],
 };

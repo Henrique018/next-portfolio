@@ -13,6 +13,10 @@ export default function Home() {
       <Lines className="my-10 w-92 md:my-20 md:w-[688px]" />
 
       <ProjectsSearch />
+
+      <section id="blog" className="my-8">
+        posts
+      </section>
     </main>
   );
 }
