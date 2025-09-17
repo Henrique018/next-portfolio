@@ -5,6 +5,20 @@
   --primary: #284260;
   --secondary: #6e859f;
   --highlight: #1ca7c8;
+  --text-gradient: linear-gradient(90deg, #8c61d5 43.48%, #1ca7c8 100%);
+  --background-gradient: linear-gradient(circle, #6cdcff33 0%, #c1bcff4d 30%, #db73ff4d 100%);
+}
+
+.text-gradient {
+  background: var(--text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.background-gradient {
+  background: var(--background-gradient);
+  backdrop-filter: blur(141.79);
 }
 
 @theme inline {
@@ -13,12 +27,32 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-highlight: var(--highlight);
+  --font-sans: 'Inter', Arial, Helvetica, sans-serif;
+  --font-chakra-petch: 'Chakra Petch', sans-serif;
 }
 
 body {
   font-size: 16px;
   box-sizing: border-box;
   background: var(--background);
-  color: var(--foreground);
-  font-family: 'Chakra Petch', Arial, Helvetica, sans-serif;
+  color: var(--secondary);
+  font-family: var(--font-sans);
+}
+
+@layer components {
+  .gradient-bg {
+    @apply relative h-screen w-full ;
+  }
+
+  .glow {
+    @apply absolute translate-x-[-50%] translate-y-[-50%] rounded-full blur-[140px];
+  }
+
+  .glow-blue {
+    @apply top-[35%] left-[75%] h-[374px] w-[488px] bg-[#6CDCFF]/20;
+  }
+
+  .glow-purple {
+    @apply top-[35%] left-[45%] h-[365px] w-[477px] bg-[#DB73FF]/30;
+  }
 }
