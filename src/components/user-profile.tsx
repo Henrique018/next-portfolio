@@ -8,7 +8,7 @@ export const UserProfile = () => {
       <Image
         src={siteConfig.author.avatar}
         alt={`Foto de perfil de ${siteConfig.author.name}`}
-        className="mb-6 block rounded-full"
+        className="mb-6 block rounded-full size-44 sm:size-56"
         width={224}
         height={224}
         priority
