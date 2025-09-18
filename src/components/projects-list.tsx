@@ -27,7 +27,7 @@ export const ProjectsList = ({ projects, pagination }: ProjectsListProps) => {
 
   return (
     <section id="blog">
-      <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
+      <div className="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:items-stretch lg:grid-cols-3">
         {filteredProjects && filteredProjects.length > 0 ? (
           filteredProjects.map((post) => (
             <ProjectCard

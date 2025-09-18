@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
 import { projectsClient } from '@/services';
+import { Footer } from '@/components/footer';
 import { UserProfile } from '@/components/user-profile';
 import { ProjectsList } from '@/components/projects-list';
 import { ProjectsSearch } from '@/components/projects-search';
@@ -50,6 +51,8 @@ export default async function Home({ searchParams }: HomeProps) {
       <Suspense fallback={<div>Carregando projetos...</div>}>
         <ProjectsList projects={posts} pagination={pagination} />
       </Suspense>
+
+      <Footer />
     </main>
   );
 }
