@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
       <ProjectsSearch />
 
-      <Suspense fallback={<div>Carregando projetos...</div>}>
+      <Suspense fallback={<div className='animate-pulse'>Carregando projetos...</div>}>
         <ProjectsList projects={posts} pagination={pagination} />
       </Suspense>
 

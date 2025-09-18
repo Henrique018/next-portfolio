@@ -89,7 +89,9 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
           Postagens relacionadas
         </h2>
 
-        <Suspense fallback={<div>Carregando postagens relacionadas...</div>}>
+        <Suspense
+          fallback={<div className="animate-pulse">Carregando postagens relacionadas...</div>}
+        >
           <ProjectsList
             projects={mostRelatedPosts}
             pagination={{ postsPerPage: 3, totalPages: 1, totalPosts: 3, currentPage: 1 }}
