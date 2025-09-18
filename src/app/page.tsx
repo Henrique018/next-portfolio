@@ -10,9 +10,7 @@ import { siteConfig } from '@/config/content';
 import { Lines } from '@/icons/lines';
 
 type HomeProps = {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 const PAGE_LIMIT = 6;

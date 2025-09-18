@@ -18,6 +18,15 @@ type HeaderProps = {
 export const Header = ({ author, routes }: HeaderProps) => {
   const pathname = usePathname();
 
+  const isRouteActive = (routeLink: string) => {
+    if (pathname === routeLink) return true;
+
+    if (routeLink.startsWith('#')) {
+      const hashSection = routeLink.substring(1);
+      return pathname.startsWith(`/${hashSection}`);
+    }
+  };
+
   return (
     <header className="flex items-center justify-between px-4 pt-6 font-chakra-petch md:px-32 md:pt-10 lg:pt-20">
       <div className="flex items-center gap-3 lg:gap-5">
@@ -33,10 +42,9 @@ export const Header = ({ author, routes }: HeaderProps) => {
             <li key={route.link}>
               <Link
                 href={route.link}
-                className={cn(
-                  'text-lg font-bold text-primary transition-colors lg:text-2xl',
-                  pathname === route.link && 'text-highlight',
-                )}
+                className={cn('text-lg font-bold text-primary transition-colors lg:text-2xl', {
+                  'text-highlight': isRouteActive(route.link),
+                })}
               >
                 {route.label}
               </Link>

@@ -26,7 +26,7 @@ export const Footer = () => {
               href={siteConfig.author.social?.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 underline underline-offset-2"
               aria-label="Link para o perfil de LinkedIn"
             >
               <LinkedinIcon />
@@ -38,7 +38,7 @@ export const Footer = () => {
               href={siteConfig.author.social?.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 underline underline-offset-2"
             >
               <GitHubIcon />
               /fernandamascheti

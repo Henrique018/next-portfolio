@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 export const buttonVariants = cva(
-  'flex cursor-pointer items-center justify-center gap-2.5 rounded px-4 py-2 font-bold transition-colors duration-150 ease-in focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-700 disabled:pointer-events-none disabled:border-neutral-200 disabled:text-neutral-100',
+  'flex items-center justify-center gap-2.5 rounded px-4 py-2 font-bold transition-colors duration-150 ease-in focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-700 disabled:pointer-events-none disabled:border-neutral-200 disabled:text-neutral-100',
   {
     variants: {
       variant: {
@@ -35,7 +35,7 @@ export const Button = ({
     <button
       type={type}
       data-variant={variant}
-      className={cn(buttonVariants({ variant }), className)}
+      className={cn(buttonVariants({ variant }), 'cursor-pointer', className)}
       {...props}
     >
       {children}

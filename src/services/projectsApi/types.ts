@@ -10,7 +10,10 @@ export type Project = {
     name: string;
     description: string;
   };
-  tags: string[];
+  tags: {
+    slug: string;
+    name: string;
+  }[];
   imageUrl: string;
 };
 
@@ -19,8 +22,16 @@ export type PaginationProps = {
   totalPages: number;
   totalPosts: number;
   postsPerPage: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+};
+
+export type ProjectResponse = {
+  post: Project;
+  meta: {
+    generatedAt: string;
+    seed: string;
+  };
 };
 
 export type ProjectsResponse = {

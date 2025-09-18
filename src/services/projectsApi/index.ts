@@ -1,4 +1,4 @@
-import { Project, ProjectsResponse } from './types';
+import { ProjectResponse, ProjectsResponse } from './types';
 
 type PaginationParams = {
   page?: number;
@@ -7,7 +7,10 @@ type PaginationParams = {
 
 export interface IProjectsClient {
   getPosts: (params?: PaginationParams) => Promise<ProjectsResponse>;
-  getPostById: (id: string, paginationParams?: PaginationParams) => Promise<Project | null>;
+  getPostById: (
+    id: string,
+    paginationParams?: PaginationParams,
+  ) => Promise<ProjectResponse | null>;
   getPostsByTag: (
     tag: string,
     paginationParams?: PaginationParams,
@@ -63,11 +66,14 @@ export class ProjectsClient implements IProjectsClient {
     }
   }
 
-  async getPostById(id: string, paginationParams?: PaginationParams): Promise<Project | null> {
+  async getPostById(
+    id: string,
+    paginationParams?: PaginationParams,
+  ): Promise<ProjectResponse | null> {
     try {
       const queryString = ProjectsClient.buildQueryString(paginationParams);
       const response = await fetch(
-        `${this.apiUrl}/api/posts/${id}${queryString ? `?${queryString}` : ''}`,
+        `${this.apiUrl}/api/posts/id/${id}${queryString ? `?${queryString}` : ''}`,
       );
 
       if (response.status === 404) {
