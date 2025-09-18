@@ -13,7 +13,7 @@ export const ProjectsSearch = () => {
   const pathname = usePathname();
   const params = useSearchParams();
 
-  const categories = useMemo(() => siteConfig.validCategories || [], []);
+  const categories = useMemo(() => Object.entries(siteConfig.validCategories) || [], []);
 
   const query = useMemo(() => {
     return params.get('query') || '';
@@ -31,9 +31,14 @@ export const ProjectsSearch = () => {
     (newQuery?: string, newCategory?: string) => {
       try {
         const searchParams = new URLSearchParams(params.toString());
+        const currentCategory = params.get('category') || '';
 
         const queryValue = newQuery !== undefined ? newQuery : searchQuery;
         const categoryValue = newCategory !== undefined ? newCategory : category;
+
+        if (newCategory !== undefined && newCategory !== currentCategory) {
+          searchParams.delete('page');
+        }
 
         if (queryValue) {
           searchParams.set('query', queryValue);
@@ -119,25 +124,25 @@ export const ProjectsSearch = () => {
       </div>
 
       {categories.length > 0 && (
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-4 lg:flex-row">
           <p className="font-bold text-primary" id="categories-label">
             Categorias:
           </p>
 
           <div
-            className="mt-2 flex flex-wrap gap-2"
+            className="flex max-w-[500px] flex-wrap justify-center gap-2"
             role="group"
             aria-labelledby="categories-label"
           >
-            {categories.map((cat) => (
+            {categories.map(([key, val]) => (
               <Button
-                key={cat}
-                onClick={() => handleUpdateCategory(cat)}
-                variant={category === cat ? 'primary' : 'outlined'}
-                aria-label={`Filtrar por categoria ${cat}`}
-                aria-pressed={category === cat}
+                key={key}
+                onClick={() => handleUpdateCategory(key)}
+                variant={category === key ? 'primary' : 'outlined'}
+                aria-label={`Filtrar por categoria ${key}`}
+                aria-pressed={category === key}
               >
-                {cat}
+                {val}
               </Button>
             ))}
           </div>

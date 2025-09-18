@@ -10,5 +10,13 @@ export const siteConfig = {
     { label: 'Início', link: '/' },
     { label: 'Blog', link: '#blog' },
   ],
-  validCategories: ['IA', 'Front-end', 'Back-end'],
+  validCategories: {
+    mobile: 'Mobile',
+    programacao: 'Programação',
+    frontend: 'Frontend',
+    devops: 'DevOps',
+    'ux-design': 'UX Design',
+    'data-science': 'Data Science',
+    'inovacao-gestao': 'Inovação e Gestão',
+  },
 };

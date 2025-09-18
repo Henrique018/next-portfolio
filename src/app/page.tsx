@@ -1,10 +1,42 @@
+import { Suspense } from 'react';
+
+import { projectsClient } from '@/services';
 import { UserProfile } from '@/components/user-profile';
-import { ProjectCard } from '@/components/project-card';
+import { ProjectsList } from '@/components/projects-list';
 import { ProjectsSearch } from '@/components/projects-search';
 import GradientBackground from '@/components/gradient-background';
+import { siteConfig } from '@/config/content';
 import { Lines } from '@/icons/lines';
 
-export default function Home() {
+type HomeProps = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+const PAGE_LIMIT = 6;
+
+const getPosts = async (category?: string, page?: number) => {
+  if (
+    category &&
+    siteConfig.validCategories[category as keyof typeof siteConfig.validCategories]
+  ) {
+    return await projectsClient.getPostsByCategory(category, {
+      page: page,
+      limit: PAGE_LIMIT,
+    });
+  } else {
+    return await projectsClient.getPosts({ page: page, limit: PAGE_LIMIT });
+  }
+};
+
+export default async function Home({ searchParams }: HomeProps) {
+  const search = await searchParams;
+  const page = search.page ? parseInt(search.page as string, 10) : 1;
+  const category = search.category ? (search.category as string) : undefined;
+
+  const { posts, pagination } = await getPosts(category, page);
+
   return (
     <main className="flex flex-1 flex-col items-center px-4 pt-10 md:px-32 lg:pt-20">
       <GradientBackground>
@@ -15,29 +47,9 @@ export default function Home() {
 
       <ProjectsSearch />
 
-      <section id="blog" className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <ProjectCard
-          category="Front-end"
-          imageUrl="/images/profile-pic.png"
-          slug="desenvolvendo-uma-ferramenta-interativa-de-estudo"
-          title="Desenvolvendo uma ferramenta interativa de estudo"
-          description="Lorem ipsum dolor sit amet consectetur. Et morbi egestas facilisis neque gravida in diam fermentum. Leo sed eu donec mi elit..."
-        />
-        <ProjectCard
-          category="Back-end"
-          imageUrl="/images/profile-pic.png"
-          slug="utilizando-a-responsividade-em-aplicacoes-com-html-e-css"
-          title="Utilizando a responsividade em aplicações com HTML e CSS"
-          description="Lorem ipsum dolor sit amet consectetur. Et morbi egestas facilisis neque gravida in diam fermentum. Leo sed eu donec mi elit..."
-        />
-        <ProjectCard
-          category="IA"
-          imageUrl="/images/profile-pic.png"
-          slug="desenvolvendo-um-site-de-assinatura-de-conteudo"
-          title="Desenvolvendo um site de assinatura de conteúdo"
-          description="Lorem ipsum dolor sit amet consectetur. Et morbi egestas facilisis neque gravida in diam fermentum. Leo sed eu donec mi elit..."
-        />
-      </section>
+      <Suspense fallback={<div>Carregando projetos...</div>}>
+        <ProjectsList projects={posts} pagination={pagination} />
+      </Suspense>
     </main>
   );
 }

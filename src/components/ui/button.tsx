@@ -9,6 +9,7 @@ export const buttonVariants = cva(
         primary: 'bg-highlight text-white',
         ghost: 'bg-transparent text-highlight',
         outlined: 'bg-transparent text-highlight border border-highlight',
+        gray: 'bg-[#9d9d9d] text-white border-none',
       },
     },
     defaultVariants: {
