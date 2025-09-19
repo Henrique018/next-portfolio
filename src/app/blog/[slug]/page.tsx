@@ -20,18 +20,20 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
   const { post } = data;
 
   const relatedPostsByCategory = await projectsClient.getPostsByCategory(post.category.slug, {
-    limit: 3,
+    limit: 9,
   });
 
-  const mostRelatedPosts = relatedPostsByCategory.posts
-    .map((relatedPost) => {
-      const commonTags = relatedPost.tags.filter((tag) =>
-        post.tags.some((postTag) => postTag.slug === tag.slug),
-      );
-      return { ...relatedPost, commonTagsCount: commonTags.length };
-    })
-    .sort((a, b) => b.commonTagsCount - a.commonTagsCount)
-    .slice(0, 3);
+  const mostRelatedPosts =
+    relatedPostsByCategory.posts
+      ?.filter((relatedPost) => relatedPost.id !== post.id)
+      ?.map((relatedPost) => {
+        const commonTags = relatedPost.tags.filter((tag) =>
+          post.tags.some((postTag) => postTag.slug === tag.slug),
+        );
+        return { ...relatedPost, commonTagsCount: commonTags.length };
+      })
+      .sort((a, b) => b.commonTagsCount - a.commonTagsCount)
+      .slice(0, 3) || [];
 
   return (
     <div className="flex flex-col px-4 pt-10 md:px-32 lg:pt-20">
@@ -78,7 +80,7 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
             alt={post.title}
             width={608}
             height={358}
-            className="w-full flex-shrink-0 rounded-lg object-cover sm:w-[350px] lg:w-[608px] h-auto"
+            className="h-auto w-full flex-shrink-0 rounded-lg object-cover sm:w-[350px] lg:w-[608px]"
             fetchPriority="high"
           />
         </div>
