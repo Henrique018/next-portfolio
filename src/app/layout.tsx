@@ -17,9 +17,38 @@ const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
 });
+
 export const metadata: Metadata = {
   title: siteConfig.author.name,
   description: siteConfig.author.bio,
+  authors: {
+    name: siteConfig.author.name,
+  },
+  keywords: Object.values(siteConfig.validCategories).flat(),
+  openGraph: {
+    title: siteConfig.author.name,
+    description: siteConfig.author.bio,
+    type: 'website',
+    locale: 'pt_BR',
+    images: [
+      {
+        url: '/images/profile-pic.png',
+        width: 400,
+        height: 400,
+        alt: siteConfig.author.name,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: siteConfig.author.name,
+    description: siteConfig.author.bio,
+    images: ['/images/profile-pic.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
