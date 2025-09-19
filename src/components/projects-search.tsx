@@ -138,7 +138,7 @@ export const ProjectsSearch = () => {
               <Button
                 key={key}
                 onClick={() => handleUpdateCategory(key)}
-                variant={category === key ? 'primary' : 'outlined'}
+                variant={category === key ? 'outlined' : 'primary'}
                 aria-label={`Filtrar por categoria ${key}`}
                 aria-pressed={category === key}
               >

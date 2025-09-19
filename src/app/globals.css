@@ -42,7 +42,7 @@ body {
 
 @layer components {
   .gradient-bg {
-    @apply relative max-h-[70vh] w-full;
+    @apply relative lg:min-h-[70vh] w-full;
   }
 
   .glow {

@@ -6,6 +6,7 @@ import { projectsClient } from '@/services';
 import { siteConfig } from '@/config/content';
 import { buttonVariants } from '@/components/ui/button';
 import { ProjectsList } from '@/components/projects-list';
+import GradientBackground from '@/components/gradient-background';
 
 export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
   const { slug } = await params;
@@ -34,7 +35,7 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
 
   return (
     <div className="flex flex-col px-4 pt-10 md:px-32 lg:pt-20">
-      <main>
+      <GradientBackground as="main">
         <div className="flex w-full flex-col justify-between gap-6 sm:flex-row">
           <div className="flex flex-col gap-6">
             <h1 className="font-chakra-petch text-3xl font-bold text-primary lg:text-4xl xl:text-5xl">
@@ -82,7 +83,7 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
         </div>
 
         <div className="my-10 lg:mt-16">{post.content}</div>
-      </main>
+      </GradientBackground>
 
       <aside>
         <h2 className="mb-10 font-chakra-petch text-2xl font-bold text-primary">

@@ -3,16 +3,19 @@ const Glow = ({ className }: { className?: string }) => {
 };
 
 type GradientBackgroundProps = {
+  as?: keyof React.JSX.IntrinsicElements;
   children: React.ReactNode;
 };
 
-const GradientBackground = ({ children }: GradientBackgroundProps) => {
+const GradientBackground = ({ as = 'div', children }: GradientBackgroundProps) => {
+  const Tag = as;
+
   return (
-    <div className="gradient-bg relative z-0">
+    <Tag className="gradient-bg z-0">
       <Glow className="glow-blue pointer-events-none" />
       <Glow className="glow-purple pointer-events-none" />
       <div className="z-10">{children}</div>
-    </div>
+    </Tag>
   );
 };
 
