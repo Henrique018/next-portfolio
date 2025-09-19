@@ -1,10 +1,20 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
 :root {
   --background: #ffffff;
   --primary: #284260;
   --secondary: #6e859f;
   --highlight: #1ca7c8;
+  --text-gradient: linear-gradient(90deg, #8c61d5 43.48%, #1ca7c8 100%);
+  --background-gradient: linear-gradient(circle, #6cdcff33 0%, #c1bcff4d 30%, #db73ff4d 100%);
+}
+
+.dark {
+  --background: #0f172a;
+  --primary: #e0e7ff;
+  --secondary: #94a3b8;
+  --highlight: #089bc8;
   --text-gradient: linear-gradient(90deg, #8c61d5 43.48%, #1ca7c8 100%);
   --background-gradient: linear-gradient(circle, #6cdcff33 0%, #c1bcff4d 30%, #db73ff4d 100%);
 }
@@ -37,12 +47,17 @@ body {
   background: var(--background);
   color: var(--secondary);
   font-family: var(--font-sans);
-  scroll-behavior: smooth;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
   .gradient-bg {
-    @apply relative lg:min-h-[70vh] w-full;
+    @apply relative w-full lg:min-h-[60vh] ;
   }
 
   .glow {

@@ -46,6 +46,7 @@ function PaginationLink({ className, isActive, ...props }: PaginationLinkProps) 
         buttonVariants({
           variant: isActive ? 'primary' : 'gray',
         }),
+        { 'dark: !bg-highlight': isActive },
         className,
       )}
       {...props}

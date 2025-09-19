@@ -1,10 +1,13 @@
-export const CodeIcon = () => (
+type IconProps = React.SVGProps<SVGSVGElement>;
+
+export const CodeIcon = (props: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="46"
     height="46"
     viewBox="0 0 46 46"
     fill="none"
+    {...props}
   >
     <path
       d="M30.6666 34.5L42.1666 23L30.6666 11.5"

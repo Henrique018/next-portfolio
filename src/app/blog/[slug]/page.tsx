@@ -78,7 +78,8 @@ export default async function BlogPost({ params }: PageProps<'/blog/[slug]'>) {
             alt={post.title}
             width={608}
             height={358}
-            className="w-full flex-shrink-0 rounded-lg object-cover sm:w-[350px] lg:w-[608px]"
+            className="w-full flex-shrink-0 rounded-lg object-cover sm:w-[350px] lg:w-[608px] h-auto"
+            fetchPriority="high"
           />
         </div>
 
