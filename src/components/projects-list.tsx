@@ -1,7 +1,3 @@
-'use client';
-
-import { useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { ProjectCard } from '@/components/project-card';
 import { Project, PaginationProps } from '@/services/projectsApi/types';
 import { DynamicPagination } from '@/components/dynamic-pagination';
@@ -12,24 +8,11 @@ type ProjectsListProps = {
 };
 
 export const ProjectsList = ({ projects, pagination }: ProjectsListProps) => {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('query') || '';
-
-  const filteredProjects = useMemo(() => {
-    if (!query.trim()) {
-      return projects;
-    }
-
-    return projects.filter((project) =>
-      project.title.toLowerCase().includes(query.toLowerCase()),
-    );
-  }, [projects, query]);
-
   return (
     <section id="blog">
       <div className="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:items-stretch lg:grid-cols-3">
-        {filteredProjects && filteredProjects.length > 0 ? (
-          filteredProjects.map((post) => (
+        {projects && projects.length > 0 ? (
+          projects.map((post) => (
             <ProjectCard
               key={post.id}
               slug={post.id}
@@ -40,11 +23,7 @@ export const ProjectsList = ({ projects, pagination }: ProjectsListProps) => {
             />
           ))
         ) : (
-          <p className="col-span-full text-center text-gray-500">
-            {query.trim()
-              ? `Nenhum projeto encontrado com o termo "${query}"`
-              : 'Nenhum projeto encontrado'}
-          </p>
+          <p className="col-span-full text-center text-gray-500">Nenhum projeto encontrado</p>
         )}
       </div>
 

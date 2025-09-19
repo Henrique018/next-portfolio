@@ -11,6 +11,7 @@ export const siteConfig = {
       github: 'https://github.com/femascheti',
     },
   },
+  url: 'https://alura-challenge-portfolio.vercel.app/',
   routes: [
     { label: 'Início', link: '/' },
     { label: 'Blog', link: '#blog' },

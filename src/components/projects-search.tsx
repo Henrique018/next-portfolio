@@ -1,5 +1,6 @@
 'use client';
 
+import debounce from 'debounce';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
@@ -27,33 +28,12 @@ export const ProjectsSearch = () => {
   const [category, setCategory] = useState<string>(selectedCategory);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const updateURL = useCallback(
-    (newQuery?: string, newCategory?: string) => {
+  const navigateWithParams = useCallback(
+    (searchParams: URLSearchParams) => {
       try {
-        const searchParams = new URLSearchParams(params.toString());
-        const currentCategory = params.get('category') || '';
-
-        const queryValue = newQuery !== undefined ? newQuery : searchQuery;
-        const categoryValue = newCategory !== undefined ? newCategory : category;
-
-        if (newCategory !== undefined && newCategory !== currentCategory) {
-          searchParams.delete('page');
-        }
-
-        if (queryValue) {
-          searchParams.set('query', queryValue);
-        } else {
-          searchParams.delete('query');
-        }
-
-        if (categoryValue) {
-          searchParams.set('category', categoryValue);
-        } else {
-          searchParams.delete('category');
-        }
-
         const queryString = searchParams.toString();
         const currentHash = window.location.hash;
+
         const newPath = queryString
           ? `${pathname}?${queryString}${currentHash}`
           : `${pathname}${currentHash}`;
@@ -62,7 +42,58 @@ export const ProjectsSearch = () => {
         console.error('Error updating URL:', error);
       }
     },
-    [params, searchQuery, category, pathname, router],
+    [pathname, router],
+  );
+
+  const updateURL = useCallback(
+    (newQuery?: string, newCategory?: string) => {
+      const searchParams = new URLSearchParams(params.toString());
+      const currentCategory = params.get('category') || '';
+
+      const queryValue = newQuery !== undefined ? newQuery : searchQuery;
+      const categoryValue = newCategory !== undefined ? newCategory : category;
+
+      if (newQuery !== undefined) {
+        searchParams.delete('page');
+      }
+
+      if (newCategory !== undefined && newCategory !== currentCategory) {
+        searchParams.delete('page');
+      }
+
+      if (queryValue) {
+        searchParams.set('query', queryValue);
+      } else {
+        searchParams.delete('query');
+      }
+
+      if (categoryValue) {
+        searchParams.set('category', categoryValue);
+      } else {
+        searchParams.delete('category');
+      }
+
+      navigateWithParams(searchParams);
+    },
+    [params, searchQuery, category, navigateWithParams],
+  );
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((query: string) => {
+        const searchParams = new URLSearchParams(params.toString());
+
+        searchParams.delete('page');
+
+        if (query) {
+          searchParams.set('query', query);
+        } else {
+          searchParams.delete('query');
+        }
+
+        navigateWithParams(searchParams);
+      }, 500),
+    [params, navigateWithParams],
   );
 
   useEffect(() => {
@@ -80,21 +111,20 @@ export const ProjectsSearch = () => {
     [category, updateURL],
   );
 
-  useEffect(() => {
-    if (!isInitialized) return;
-
-    const timeoutId = setTimeout(() => {
-      updateURL(searchQuery);
-    }, 400);
-
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery, updateURL, isInitialized]);
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchQuery(value);
+      if (isInitialized) {
+        debouncedSearch(value);
+      }
+    },
+    [debouncedSearch, isInitialized],
+  );
 
   return (
     <form
       role="search"
       className="flex w-full flex-col items-center justify-between gap-4 md:flex-row md:gap-6"
-      onSubmit={(e) => e.preventDefault()}
       aria-label="Buscar e filtrar postagens"
     >
       <div className="flex flex-1 flex-col items-center gap-4 lg:flex-row">
@@ -109,10 +139,7 @@ export const ProjectsSearch = () => {
           name="query"
           type="search"
           value={searchQuery}
-          onChange={(e) => {
-            const q = e.target.value;
-            setSearchQuery(q);
-          }}
+          onChange={(e) => handleSearchChange(e.target.value)}
           placeholder="Buscar..."
           className="max-w-[320px]"
           aria-label="Buscar postagens"

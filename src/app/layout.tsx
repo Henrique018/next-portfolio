@@ -21,6 +21,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: siteConfig.author.name,
   description: siteConfig.author.bio,
+  metadataBase: new URL(siteConfig.url),
   authors: {
     name: siteConfig.author.name,
   },
